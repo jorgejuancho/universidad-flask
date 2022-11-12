@@ -149,22 +149,15 @@ def eliminar(id: str):
 
 
 
-
-
-
-
-
-
 @app.route("/admin/materias")
 def materias():
     return render_template("materias.html")
 
+@app.route("/admin/profesores")
+def profesores():
+    return render_template("profesores.html")
 
-
-
-
-
-
+    
 
 @app.route("/matriculas")
 def matriculas():
@@ -273,5 +266,7 @@ def eliminar_matricula(codigo, materia):
         datos["error"] = str(ex)
         
     return matriculas_buscar(codigo, datos)
+
+
 
 app.run(debug=True)
