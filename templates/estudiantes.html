@@ -1,7 +1,8 @@
 {% extends "plantilla.html" %}
 
 {% block titulo %}
-Gestion de Estudiantes
+<h2 style="text-align: center;">Gestion de Estudiantes</h2>
+<br>
 {% endblock %}
 
 {% block contenido %}
@@ -23,7 +24,7 @@ Gestion de Estudiantes
         <table class="table table-primary table-striped ">
             <thead>
                 <tr>
-                    <th colspan="4" style="text-align: center;">Listado de estudiantes registrados</th>
+                    <th colspan="4" ><h3>Listado de estudiantes registrados</h3></th>
                 </tr>
                 <tr>
                     <th>Código</th>
@@ -45,7 +46,7 @@ Gestion de Estudiantes
         </table>
     </div>
     <div class="col bg-primary text-white" style="padding: 10px;">
-        <h3>Registro de estudiantes nuevos</h3>
+        <h3 >Registro de estudiantes nuevos</h3classtext-align-center>
         <form action="/admin/estudiantes/nuevo" method="post">
             <div class="mb-3">
                 <label for="exampleInputCodigo" class="form-label">Código</label>

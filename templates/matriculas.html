@@ -1,14 +1,15 @@
 {% extends 'plantilla.html' %}
 
 {% block titulo %}
+<br>
 Matriculas de los estudiantes
 {% endblock titulo %}
 
 {% block contenido %}
 
-<form method="post" action="/matriculas/buscar" class="row">
-    <label for="search" class="form-label col-1">Código</label>
-    <input id="search" type="text" class="form-control col" name="codigo">
+<form method="post" action="/matriculas/buscar" class="row" >
+    <label for="search" class="form-label col-1" >Código</label>
+    <input id="search" type="text" class="form-control col" name="codigo" placeholder="Ingresa codigo del estudiante a matricular">
     <button type="submit" class="btn btn-primary col-1">Buscar</button>
 </form>
 

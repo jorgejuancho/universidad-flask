@@ -1,11 +1,18 @@
 {% extends "plantilla.html" %}
 
 {% block titulo %}
+<br>
 Bienvenidos a la Universidad de la vida
 {% endblock %}
 
 {% block contenido %}
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium ea repellendus odit obcaecati omnis corporis. Exercitationem, sapiente facilis adipisci consequatur tenetur a tempore maxime quo corporis esse eligendi nemo neque.</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, at. Laudantium, officia fugiat numquam amet vero dicta velit facere praesentium tempore. Omnis illum eius quos assumenda dignissimos error dolorem magni.</p>
-<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate voluptatum velit impedit sint ea veritatis quisquam, quia nisi modi dolor voluptatem laboriosam ex perspiciatis temporibus facilis neque ipsum, sed amet.</p>
+<br>
+<p>
+    En esta pagina se ilustra como se gestiona las matrículas para una universidad x de parte de un administrador usando la tecnología de flask. Permite elegir materia, borrar materia, editar materia y leer materias matriculadas.</p>
+
+    <br>
+
+<p>Se conecta con la base de datos relacional sql. Sus tablas son estudiantes, materias y matricula, que se crea como una tabla adicional para romper la relación de muchos a muchos y poder gestionar de forma eficiente la matricula sin ambigüedades. </p>
+
+
 {% endblock %}
