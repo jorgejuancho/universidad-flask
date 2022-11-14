@@ -1,6 +1,17 @@
 {% extends "plantilla.html" %}
 
 {% block titulo %}
-<br>
 Gestion de Materias
 {% endblock %}
+
+{% block contenido %}
+<br>
+<form method="post" action="/matriculas/buscar" class="row">
+    <label for="search" class="form-label "> <h3>Agregar Materia</h3></label>
+    <input id="search" type="text" class="form-control col" name="codigo" placeholder="Ingresa nombre de la materia">
+    <input id="search" type="number" class="form-control col" name="codigo"
+        placeholder="Ingresa numero de creditos de la materia">
+    <button type="submit" class="btn btn-primary col-3">Guardar</button>
+</form>
+
+{% endblock contenido %}

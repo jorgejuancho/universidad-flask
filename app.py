@@ -267,6 +267,16 @@ def eliminar_matricula(codigo, materia):
         
     return matriculas_buscar(codigo, datos)
 
+# @app.route("/materias/agregar", methods=["POST"])
+# def agregar_materia():
+#     codigo = request.form["codigo"]
+#     materia = request.form["materia"]
+
+# sql = f"""
+#                 INSERT INTO materia (nombre, creditos)
+#                 VALUES ('{nombre}', {creditos});
+#             """
+
 
 
 app.run(debug=True)
