@@ -4,19 +4,21 @@ from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] =  'localhost'
+app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] =  'universidad'
-app.config['MYSQL_PORT'] =  3308
+app.config['MYSQL_DB'] = 'universidad'
+app.config['MYSQL_PORT'] = 3308
 mysql = MySQL(app)
+
 
 @app.route("/")
 def saludo():
     return render_template("index.html")
 
+
 @app.route("/admin/estudiantes")
-def estudiantes(datos = dict()):
+def estudiantes(datos=dict()):
     try:
         sql = """
                 SELECT codigo, nombres, apellidos, correo, telefono
@@ -28,11 +30,12 @@ def estudiantes(datos = dict()):
         cursor.close()
 
     except:
-        datos["error"]="Error al consultar los estudiantes"
+        datos["error"] = "Error al consultar los estudiantes"
 
-    return render_template("estudiantes.html", modelo = datos)
+    return render_template("estudiantes.html", modelo=datos)
 
-@app.route("/admin/estudiantes/nuevo", methods = ["POST"])
+
+@app.route("/admin/estudiantes/nuevo", methods=["POST"])
 def nuevo_estudiante():
     codigo = request.form["codigo"]
     nombre = request.form["nombres"]
@@ -44,7 +47,8 @@ def nuevo_estudiante():
     try:
         sql = f"""
                 INSERT INTO estudiante (codigo, nombres, apellidos, correo, telefono)
-                VALUES ('{codigo}','{nombre}','{apellido}','{correo}','{telefono}');
+                VALUES ('{codigo}','{nombre}','{apellido}',
+                        '{correo}','{telefono}');
             """
         cursor = mysql.connection.cursor()
         cursor.execute(sql)
@@ -61,13 +65,14 @@ def nuevo_estudiante():
 
     return estudiantes(datos)
 
+
 @app.route("/admin/estudiantes/editar/<id>")
 def editar(id: str):
     datos = dict()
     try:
         if id == None or len(id) == 0:
             raise Exception("El codigo no puede estar vacio")
-        
+
         # Consultar la informacion del estudiante con codigo = id
         sql = f"""
             SELECT codigo, nombres, apellidos, correo, telefono
@@ -82,12 +87,13 @@ def editar(id: str):
         cursor.close()
 
         # Mostrar la plantilla
-        return render_template("estudiantes_editar.html", modelo = datos)
+        return render_template("estudiantes_editar.html", modelo=datos)
     except Exception as ex:
         datos["error"] = str(ex)
         return estudiantes(datos)
 
-@app.route("/admin/estudiantes/actualizar", methods = ["POST"])
+
+@app.route("/admin/estudiantes/actualizar", methods=["POST"])
 def actualizar_estudiante():
     codigo = request.form["codigo"]
     nombre = request.form["nombres"]
@@ -120,13 +126,14 @@ def actualizar_estudiante():
 
     return estudiantes(datos)
 
+
 @app.route("/admin/estudiantes/eliminar/<id>")
 def eliminar(id: str):
     datos = dict()
     try:
         if id == None or len(id) == 0:
             raise Exception("El codigo no puede estar vacio")
-        
+
         # Consultar la informacion del estudiante con codigo = id
         sql = f"""
             DELETE
@@ -144,27 +151,42 @@ def eliminar(id: str):
             datos["exito"] = f"Estudiante fue eliminado exitosamente"
     except Exception as ex:
         datos["error"] = str(ex)
-        
-    return estudiantes(datos)
 
+    return estudiantes(datos)
 
 
 @app.route("/admin/materias")
 def materias():
-    return render_template("materias.html")
+    datos = dict()
+    try:
+        sql = """
+                SELECT id, nombre, creditos
+                FROM materia
+            """
+        cursor = mysql.connection.cursor()
+        cursor.execute(sql)
+        datos["materia"] = cursor.fetchall()
+        cursor.close()
+
+    except:
+        datos["error"] = "Error al consultar materias"
+
+    return render_template("materias.html", modelo=datos)
+  
+
 
 @app.route("/admin/profesores")
 def profesores():
     return render_template("profesores.html")
 
-    
 
 @app.route("/matriculas")
 def matriculas():
     return render_template("matriculas.html")
 
+
 @app.route("/matriculas/buscar", methods=["POST"])
-def matriculas_buscar(codigo = None, datos = dict()):
+def matriculas_buscar(codigo=None, datos=dict()):
     if codigo is None:
         codigo = request.form["codigo"]
 
@@ -210,7 +232,8 @@ def matriculas_buscar(codigo = None, datos = dict()):
         datos["error"] = "No se pudo cargar la informacion del usuario"
 
     # Enviar la informacion al formulario
-    return render_template("matriculas.html", modelo = datos)
+    return render_template("matriculas.html", modelo=datos)
+
 
 @app.route("/matriculas/agregar", methods=["POST"])
 def agregar_matricula():
@@ -239,13 +262,14 @@ def agregar_matricula():
 
     return matriculas_buscar(codigo, datos)
 
+
 @app.route("/matriculas/eliminar/<codigo>/<materia>")
 def eliminar_matricula(codigo, materia):
     datos = dict()
     try:
         if codigo == None or len(codigo) == 0:
             raise Exception("El codigo no puede estar vacio")
-        
+
         # Consultar la informacion del estudiante con codigo = id
         sql = f"""
             DELETE
@@ -264,19 +288,40 @@ def eliminar_matricula(codigo, materia):
             datos["exito"] = f"Matricula eliminada exitosamente"
     except Exception as ex:
         datos["error"] = str(ex)
-        
+
     return matriculas_buscar(codigo, datos)
 
-# @app.route("/materias/agregar", methods=["POST"])
-# def agregar_materia():
-#     codigo = request.form["codigo"]
-#     materia = request.form["materia"]
 
-# sql = f"""
-#                 INSERT INTO materia (nombre, creditos)
-#                 VALUES ('{nombre}', {creditos});
-#             """
+@app.route("/materias/agregar", methods=["POST"])
+def agregar_materia():
+    nombre = request.form["nombre"]
+    creditos = request.form["creditos"]
 
+
+    datos = dict()
+    try:
+
+        sql = f"""
+                INSERT INTO matricula (id, nombre, creditos)
+                VALUES ('{nombre}', {creditos});
+            """
+        cursor = mysql.connection.cursor()
+        cursor.execute(sql)
+        filas = cursor.rowcount
+        mysql.connection.commit()
+        cursor.close()
+        if filas != 1:
+            pass
+   
+
+    except:
+        #todo
+        pass
+   
+    
+    return materias()
+
+ 
 
 
 app.run(debug=True)

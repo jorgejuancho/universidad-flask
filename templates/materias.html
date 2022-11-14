@@ -6,12 +6,37 @@ Gestion de Materias
 
 {% block contenido %}
 <br>
-<form method="post" action="/matriculas/buscar" class="row">
-    <label for="search" class="form-label "> <h3>Agregar Materia</h3></label>
-    <input id="search" type="text" class="form-control col" name="codigo" placeholder="Ingresa nombre de la materia">
-    <input id="search" type="number" class="form-control col" name="codigo"
-        placeholder="Ingresa numero de creditos de la materia">
-    <button type="submit" class="btn btn-primary col-3">Guardar</button>
-</form>
+
+<div class="row">
+    <form action="/materias/agregar" method="post"  class="col-5">
+        <label for="search" class="form-label "> <h3>Agregar Materia</h3></label>
+        <input id="search" type="text" class="form-control col" name="nombre" placeholder="Ingresa nombre de la materia">
+        <input id="search" type="number" class="form-control col" name="creditos"
+            placeholder="Ingresa numero de creditos de la materia">
+        <button type="submit" class="btn btn-primary col-3">Guardar</button>
+    </form>
+    <div class="col">
+        <table class="table table-primary table-striped ">
+            <thead>
+                <tr>
+                    <th colspan="4" ><h3>Listado de Materias</h3></th>
+                </tr>
+                <tr>
+                    <th>Id</th>
+                    <th>Materia</th>
+                    <th>Creditos</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mat in modelo.materia %}
+                <tr>
+                    <td>{{ mat.0 }}</td>
+                    <td>{{ mat.1 }}</td>
+                    <td>{{ mat.2 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock contenido %}
